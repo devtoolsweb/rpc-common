@@ -1,11 +1,11 @@
-export interface ISocketMessage {
-  readonly id: number
-  readonly ttl?: number
-}
-
 export interface ISocketMessageParams {
   id?: number
   ttl?: number
+}
+
+export interface ISocketMessage {
+  readonly id: number
+  readonly ttl?: number
 }
 
 export class SocketMessage implements ISocketMessage {
