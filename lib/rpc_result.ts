@@ -6,7 +6,7 @@ import {
 
 export type RpcResultData = Record<string, any>
 
-export type RpcResultStatus = 'Failed' | 'OK' | 'Timeout'
+export type RpcResultStatus = 'failed' | 'success' | 'timeout'
 
 export interface IRpcResult extends ISocketMessage {
   readonly comment?: string
@@ -24,7 +24,7 @@ export class RpcResult extends SocketMessage implements IRpcResult {
 
   constructor (p: IRpcResultParams) {
     super(p)
-    this.status = p.status || 'OK'
+    this.status = p.status || 'success'
     p.comment && (this.comment = p.comment)
   }
 }
