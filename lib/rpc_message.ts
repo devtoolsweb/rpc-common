@@ -1,32 +1,34 @@
-import {
-  ISocketMessage,
-  ISocketMessageParams,
-  SocketMessage
-} from './socket_message'
+import { IJsonRpcMessage, JsonRpcId, JsonRpcVersion } from './json_rpc'
 
-export interface IRpcMessage extends ISocketMessage {
-  readonly args: IRpcMessageArgs
-  readonly domain: string
-  readonly verb: string
+/**
+ * Base RPC message
+ */
+export interface IRpcMessage extends IJsonRpcMessage {
+  readonly id?: JsonRpcId
+  readonly ttl: number
 }
 
-export type IRpcMessageArgs = Record<string | symbol, any>
-
-export interface IRpcMessageParams extends ISocketMessageParams {
-  args?: IRpcMessageArgs
-  domain: string
-  verb: string
+/**
+ * Constructor properties for an RPC message
+ */
+export interface IRpcMessageProps {
+  id?: JsonRpcId
+  ttl?: number
 }
 
-export class RpcMessage extends SocketMessage implements IRpcMessage {
-  readonly args: IRpcMessageArgs
-  readonly domain: string
-  readonly verb: string
+export class RpcMessage implements IRpcMessage {
+  private static lastId = 1
+  private static standardTtl = 10000
 
-  constructor (p: IRpcMessageParams) {
-    super(p)
-    this.args = p.args || {}
-    this.domain = p.domain
-    this.verb = p.verb
+  readonly id: JsonRpcId
+  readonly ttl: number
+
+  constructor (p: IRpcMessageProps = {}) {
+    this.id = p.id || RpcMessage.lastId++
+    this.ttl = p.ttl || RpcMessage.standardTtl
+  }
+
+  get jsonrpc () {
+    return JsonRpcVersion
   }
 }
