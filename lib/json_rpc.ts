@@ -5,7 +5,7 @@ export const JsonRpcVersion = '2.0'
 
 export type JsonRpcRequestParams = Record<string, any> | any[]
 
-export type JsonRpcId = number | string
+export type JsonRpcId = 'auto' | number | string
 
 export interface IJsonRpcMessage {
   readonly jsonrpc: string
@@ -16,7 +16,7 @@ export interface IJsonRpcNotification {
   readonly params?: JsonRpcRequestParams
 }
 
-export interface IJsonRpcRequest extends IJsonRpcMessage {
+export interface IJsonRpcRequest extends IJsonRpcNotification {
   readonly id: JsonRpcId
 }
 

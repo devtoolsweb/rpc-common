@@ -5,7 +5,6 @@ export enum RpcErrorCodeEnum {
   InvalidParams = -32602,
   InvalidRequest = -32600,
   MethodNotFound = -32601,
-  OK = 0,
   ParseError = -32700,
   Timeout = -32001,
   Unauthorized = -32002
