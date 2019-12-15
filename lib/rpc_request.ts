@@ -1,37 +1,41 @@
-import { JsonRpcRequestParams, IJsonRpcNotification } from './json_rpc'
+import { IJsonRpcNotification } from './json_rpc'
 import { IRpcMessage, IRpcMessageProps, RpcMessage } from './rpc_message'
 import { RpcUtils } from './rpc_utils'
 
 export type RpcRequestParams = Record<string, any>
 
-export interface IRpcRequest extends IRpcMessage, IJsonRpcNotification {
+export interface IRpcRequest<T extends RpcRequestParams = {}>
+  extends IRpcMessage,
+    IJsonRpcNotification {
   readonly apiKey?: string
   readonly domain: string
   readonly method: string
-  readonly params?: RpcRequestParams
+  readonly params: T
   readonly verb: string
 }
 
-export interface IRpcRequestProps extends IRpcMessageProps {
+export interface IRpcRequestProps<T extends RpcRequestParams = {}>
+  extends IRpcMessageProps {
   apiKey?: string
   method: string
-  params?: JsonRpcRequestParams
+  params?: T
 }
 
-export class RpcRequest extends RpcMessage implements IRpcRequest {
+export class RpcRequest<T extends RpcRequestParams = {}> extends RpcMessage
+  implements IRpcRequest {
   readonly apiKey?: string
   readonly domain: string
   readonly method: string
-  readonly params?: JsonRpcRequestParams
+  readonly params: T
   readonly verb: string
 
-  constructor (p: IRpcRequestProps) {
+  constructor (p: IRpcRequestProps<T>) {
     super(p)
     p.apiKey && (this.apiKey = p.apiKey)
-    p.params && (this.params = p.params)
     const [domain, verb] = RpcUtils.parseMethod(p.method)
     this.domain = domain
     this.method = p.method
+    this.params = p.params || ({} as T)
     this.verb = verb
   }
 
