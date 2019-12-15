@@ -41,9 +41,7 @@ export class RpcMessage implements IRpcMessage {
     return {
       jsonrpc,
       id,
-      params: {
-        ttl
-      }
+      ...(ttl === RpcMessage.standardTtl ? {} : { params: { ttl } })
     }
   }
 
