@@ -1,13 +1,14 @@
 import { IJsonRpcError } from './json_rpc'
 
 export enum RpcErrorCodeEnum {
+  AuthenticationRequired = -32002,
   InternalError = -32603,
   InvalidParams = -32602,
   InvalidRequest = -32600,
   MethodNotFound = -32601,
   ParseError = -32700,
   Timeout = -32001,
-  Unauthorized = -32002
+  Unauthorized = -32003
 }
 
 export interface IRpcError extends IJsonRpcError {}

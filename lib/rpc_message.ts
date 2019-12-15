@@ -17,8 +17,9 @@ export interface IRpcMessageProps {
 }
 
 export class RpcMessage implements IRpcMessage {
+  static readonly standardTtl = 10000
+
   private static lastId = 1
-  private static standardTtl = 10000
 
   readonly id?: JsonRpcId
   readonly ttl: number
@@ -27,7 +28,8 @@ export class RpcMessage implements IRpcMessage {
     if (p.id) {
       this.id = p.id === 'auto' ? RpcMessage.lastId++ : p.id
     }
-    this.ttl = p.ttl || RpcMessage.standardTtl
+    const ttl = p.ttl || 0
+    this.ttl = ttl > 0 ? ttl : RpcMessage.standardTtl
   }
 
   get jsonrpc () {
