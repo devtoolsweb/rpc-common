@@ -18,7 +18,7 @@
     "sourceRoot": "./",
     "strict": true,
     "stripInternal": true,
-    "target": "es6"
+    "target": "ESNext"
   },
   "include": ["lib"]
 }

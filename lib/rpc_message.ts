@@ -1,32 +1,61 @@
-import {
-  ISocketMessage,
-  ISocketMessageParams,
-  SocketMessage
-} from './socket_message'
+import { IJsonRpcMessage, JsonRpcId, JsonRpcVersion } from './json_rpc'
 
-export interface IRpcMessage extends ISocketMessage {
-  readonly args: IRpcMessageArgs
-  readonly domain: string
-  readonly verb: string
+/**
+ * Base RPC message
+ */
+export interface IRpcMessage extends IJsonRpcMessage {
+  readonly id?: JsonRpcId
+  readonly ttl: number
 }
 
-export type IRpcMessageArgs = Record<string | symbol, any>
-
-export interface IRpcMessageParams extends ISocketMessageParams {
-  args?: IRpcMessageArgs
-  domain: string
-  verb: string
+/**
+ * Constructor properties for an RPC message
+ */
+export interface IRpcMessageProps {
+  id?: JsonRpcId
+  ttl?: number
 }
 
-export class RpcMessage extends SocketMessage implements IRpcMessage {
-  readonly args: IRpcMessageArgs
-  readonly domain: string
-  readonly verb: string
+export class RpcMessage implements IRpcMessage {
+  static readonly standardTtl = 10000
 
-  constructor (p: IRpcMessageParams) {
-    super(p)
-    this.args = p.args || {}
-    this.domain = p.domain
-    this.verb = p.verb
+  private static lastId = 1
+
+  readonly id?: JsonRpcId
+  readonly ttl: number
+
+  constructor (p: IRpcMessageProps = {}) {
+    if (p.id) {
+      this.id = p.id === 'auto' ? RpcMessage.lastId++ : p.id
+    }
+    const ttl = p.ttl || 0
+    this.ttl = ttl > 0 ? ttl : RpcMessage.standardTtl
+  }
+
+  get jsonrpc () {
+    return JsonRpcVersion
+  }
+
+  toJSON (): any {
+    const { id, jsonrpc, ttl } = this
+    return {
+      jsonrpc,
+      id,
+      ...(ttl === RpcMessage.standardTtl ? {} : { params: { ttl } })
+    }
+  }
+
+  static makePropsFromJson (json: any): IRpcMessageProps {
+    this.validateJson(json)
+    return {
+      ...(json.id ? { id: json.id } : {}),
+      ...(json.params.ttl ? { ttl: json.params.ttl } : {})
+    }
+  }
+
+  protected static validateJson (json: any) {
+    if (json.jsonrpc !== JsonRpcVersion) {
+      throw new Error('JSON-RPC message version mismatch')
+    }
   }
 }
