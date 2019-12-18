@@ -13,7 +13,7 @@ export enum RpcErrorCodeEnum {
 
 export interface IRpcError extends IJsonRpcError {}
 
-export interface IRpcErrorProps {
+export interface IRpcErrorOpts {
   code: number
   data?: any
   message: string
@@ -24,7 +24,7 @@ export class RpcError implements IRpcError {
   readonly data?: any
   readonly message: string
 
-  constructor (p: IRpcErrorProps) {
+  constructor (p: IRpcErrorOpts) {
     this.code = p.code
     this.message = p.message
     p.data && (this.data = p.data)

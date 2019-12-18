@@ -11,7 +11,7 @@ export interface IRpcMessage extends IJsonRpcMessage {
 /**
  * Constructor properties for an RPC message
  */
-export interface IRpcMessageProps {
+export interface IRpcMessageOpts {
   id?: JsonRpcId
   ttl?: number
 }
@@ -24,7 +24,7 @@ export class RpcMessage implements IRpcMessage {
   readonly id?: JsonRpcId
   readonly ttl: number
 
-  constructor (p: IRpcMessageProps = {}) {
+  constructor (p: IRpcMessageOpts = {}) {
     if (p.id) {
       this.id = p.id === 'auto' ? RpcMessage.lastId++ : p.id
     }
@@ -45,7 +45,7 @@ export class RpcMessage implements IRpcMessage {
     }
   }
 
-  static makePropsFromJson (json: any): IRpcMessageProps {
+  static makePropsFromJson (json: any): IRpcMessageOpts {
     this.validateJson(json)
     return {
       ...(json.id ? { id: json.id } : {}),

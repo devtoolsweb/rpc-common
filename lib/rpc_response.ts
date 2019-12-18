@@ -4,11 +4,11 @@ import {
   IJsonRpcResponse,
   JsonRpcId
 } from './json_rpc'
-import { IRpcMessageProps, RpcMessage } from './rpc_message'
+import { IRpcMessageOpts, RpcMessage } from './rpc_message'
 
 export interface IRpcResponse extends IJsonRpcMessage, IJsonRpcResponse {}
 
-export interface IRpcResponseProps extends IRpcMessageProps {
+export interface IRpcResponseOpts extends IRpcMessageOpts {
   error?: IJsonRpcError
   id: JsonRpcId
   result?: any
@@ -19,7 +19,7 @@ export class RpcResponse extends RpcMessage implements IRpcResponse {
   readonly id!: JsonRpcId
   readonly result?: any
 
-  constructor (p: IRpcResponseProps) {
+  constructor (p: IRpcResponseOpts) {
     super(p)
     if (!!p.error === !!p.result) {
       throw new Error(
@@ -42,8 +42,8 @@ export class RpcResponse extends RpcMessage implements IRpcResponse {
     }
   }
 
-  static makePropsFromJson (json: any): IRpcResponseProps {
-    const props = super.makePropsFromJson(json) as IRpcResponseProps
+  static makePropsFromJson (json: any): IRpcResponseOpts {
+    const props = super.makePropsFromJson(json) as IRpcResponseOpts
     if (json.error) {
       props.error = json.error
     }

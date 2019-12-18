@@ -1,5 +1,5 @@
 import { IJsonRpcNotification } from './json_rpc'
-import { IRpcMessage, IRpcMessageProps, RpcMessage } from './rpc_message'
+import { IRpcMessage, IRpcMessageOpts, RpcMessage } from './rpc_message'
 import { RpcUtils } from './rpc_utils'
 
 export type RpcRequestParams = Record<string, any>
@@ -14,8 +14,8 @@ export interface IRpcRequest<T extends RpcRequestParams = {}>
   readonly verb: string
 }
 
-export interface IRpcRequestProps<T extends RpcRequestParams = {}>
-  extends IRpcMessageProps {
+export interface IRpcRequestOpts<T extends RpcRequestParams = {}>
+  extends IRpcMessageOpts {
   apiKey?: string
   method: string
   params?: T
@@ -29,7 +29,7 @@ export class RpcRequest<T extends RpcRequestParams = {}> extends RpcMessage
   readonly params: T
   readonly verb: string
 
-  constructor (p: IRpcRequestProps<T>) {
+  constructor (p: IRpcRequestOpts<T>) {
     super(p)
     p.apiKey && (this.apiKey = p.apiKey)
     const [domain, verb] = RpcUtils.parseMethod(p.method)
@@ -49,7 +49,7 @@ export class RpcRequest<T extends RpcRequestParams = {}> extends RpcMessage
     return { ...json, method }
   }
 
-  static makePropsFromJson (json: any): IRpcRequestProps {
+  static makePropsFromJson (json: any): IRpcRequestOpts {
     return {
       ...super.makePropsFromJson(json),
       method: json.method,
