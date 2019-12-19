@@ -47,9 +47,10 @@ export class RpcMessage implements IRpcMessage {
 
   static makePropsFromJson (json: any): IRpcMessageOpts {
     this.validateJson(json)
+    const ttl = json.params?.ttl
     return {
       ...(json.id ? { id: json.id } : {}),
-      ...(json.params.ttl ? { ttl: json.params.ttl } : {})
+      ...(ttl ? { ttl } : {})
     }
   }
 
