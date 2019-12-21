@@ -13,7 +13,7 @@ class RpcUtilsCtor {
         `RPC method name does not match pattern '${rpcMethodQNForm}'`
       )
     }
-    return m.slice(1).map(x => x || '')
+    return m[2] ? [m[1], m[2]] : ['', m[1]]
   }
 }
 
