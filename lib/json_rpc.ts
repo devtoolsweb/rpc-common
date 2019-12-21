@@ -3,7 +3,7 @@
  */
 export const JsonRpcVersion = '2.0'
 
-export type JsonRpcRequestParams = Record<string, any> | any[]
+export type JsonRpcRequestOpts = Record<string, any> | any[]
 
 export type JsonRpcId = 'auto' | number | string
 
@@ -13,7 +13,7 @@ export interface IJsonRpcMessage {
 
 export interface IJsonRpcNotification {
   readonly method: string
-  readonly params?: JsonRpcRequestParams
+  readonly params?: JsonRpcRequestOpts
 }
 
 export interface IJsonRpcRequest extends IJsonRpcNotification {

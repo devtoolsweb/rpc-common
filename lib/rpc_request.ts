@@ -2,9 +2,9 @@ import { IJsonRpcNotification } from './json_rpc'
 import { IRpcMessage, IRpcMessageOpts, RpcMessage } from './rpc_message'
 import { RpcUtils } from './rpc_utils'
 
-export type RpcRequestParams = Record<string, any>
+export type RpcRequestOpts = Record<string, any>
 
-export interface IRpcRequest<T extends RpcRequestParams = {}>
+export interface IRpcRequest<T extends RpcRequestOpts = {}>
   extends IRpcMessage,
     IJsonRpcNotification {
   readonly apiKey?: string
@@ -14,14 +14,14 @@ export interface IRpcRequest<T extends RpcRequestParams = {}>
   readonly verb: string
 }
 
-export interface IRpcRequestOpts<T extends RpcRequestParams = {}>
+export interface IRpcRequestOpts<T extends RpcRequestOpts = {}>
   extends IRpcMessageOpts {
   apiKey?: string
   method: string
   params?: T
 }
 
-export class RpcRequest<T extends RpcRequestParams = {}> extends RpcMessage
+export class RpcRequest<T extends RpcRequestOpts = {}> extends RpcMessage
   implements IRpcRequest {
   readonly apiKey?: string
   readonly domain: string
