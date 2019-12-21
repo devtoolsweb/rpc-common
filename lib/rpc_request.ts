@@ -2,9 +2,9 @@ import { IJsonRpcNotification } from './json_rpc'
 import { IRpcMessage, IRpcMessageOpts, RpcMessage } from './rpc_message'
 import { RpcUtils } from './rpc_utils'
 
-export type RpcRequestOpts = Record<string, any>
+export type RpcRequestParams = Record<string, any>
 
-export interface IRpcRequest<T extends RpcRequestOpts = {}>
+export interface IRpcRequest<T extends RpcRequestParams = {}>
   extends IRpcMessage,
     IJsonRpcNotification {
   readonly apiKey?: string
@@ -14,14 +14,14 @@ export interface IRpcRequest<T extends RpcRequestOpts = {}>
   readonly verb: string
 }
 
-export interface IRpcRequestOpts<T extends RpcRequestOpts = {}>
+export interface IRpcRequestParams<T extends RpcRequestParams = {}>
   extends IRpcMessageOpts {
   apiKey?: string
   method: string
   params?: T
 }
 
-export class RpcRequest<T extends RpcRequestOpts = {}> extends RpcMessage
+export class RpcRequest<T extends RpcRequestParams = {}> extends RpcMessage
   implements IRpcRequest {
   readonly apiKey?: string
   readonly domain: string
@@ -29,7 +29,7 @@ export class RpcRequest<T extends RpcRequestOpts = {}> extends RpcMessage
   readonly params: T
   readonly verb: string
 
-  constructor (p: IRpcRequestOpts<T>) {
+  constructor (p: IRpcRequestParams<T>) {
     super(p)
     p.apiKey && (this.apiKey = p.apiKey)
     const [domain, verb] = RpcUtils.parseMethod(p.method)
@@ -49,7 +49,7 @@ export class RpcRequest<T extends RpcRequestOpts = {}> extends RpcMessage
     return { ...json, method }
   }
 
-  static makePropsFromJson (json: any): IRpcRequestOpts {
+  static makePropsFromJson (json: any): IRpcRequestParams {
     return {
       ...super.makePropsFromJson(json),
       method: json.method,
