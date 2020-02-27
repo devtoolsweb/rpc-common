@@ -33,7 +33,7 @@ export class RpcResponse extends RpcMessage implements IRpcResponse {
     }
   }
 
-  toJSON (): any {
+  toJSON () {
     const { error, result } = this
     return {
       ...super.toJSON(),
