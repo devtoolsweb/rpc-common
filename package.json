@@ -2,7 +2,7 @@
   "author": "<aperos.dev@gmail.com>",
   "description": "Structures for data exchange through for RPC",
   "devDependencies": {
-    "rollup": "<=2.8.2",
+    "rollup": "latest",
     "rollup-plugin-dts": "latest",
     "rollup-plugin-terser": "latest",
     "rollup-plugin-typescript2": "latest",
