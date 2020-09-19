@@ -1,6 +1,6 @@
-# Aperos RPC common
+# @aperos/rpc-common
 
-Structures for data exchange through for RPC.
+Common types for RPC clients and servers.
 
 The development branch can contain experimental code that is under
 active development and should not be used for production environments.

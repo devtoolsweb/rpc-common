@@ -1,6 +1,6 @@
 {
   "author": "<aperos.dev@gmail.com>",
-  "description": "Structures for data exchange through for RPC",
+  "description": "Common types for RPC clients and servers",
   "devDependencies": {
     "rollup": "latest",
     "rollup-plugin-dts": "latest",
