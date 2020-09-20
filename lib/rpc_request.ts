@@ -1,5 +1,5 @@
 import { IJsonRpcNotification } from './json_rpc'
-import { IRpcMessage, IRpcMessageOpts, RpcMessage } from './rpc_message'
+import { IRpcMessage, IRpcMessageArgs, RpcMessage } from './rpc_message'
 import { RpcUtils } from './rpc_utils'
 
 export type RpcRequestParams = Record<string, any>
@@ -14,8 +14,8 @@ export interface IRpcRequest<T extends RpcRequestParams = {}>
   readonly verb: string
 }
 
-export interface IRpcRequestParams<T extends RpcRequestParams = {}>
-  extends IRpcMessageOpts {
+export interface IRpcRequestArgs<T extends RpcRequestParams = {}>
+  extends IRpcMessageArgs {
   apiKey?: string
   method: string
   params?: T
@@ -29,17 +29,17 @@ export class RpcRequest<T extends RpcRequestParams = {}> extends RpcMessage
   readonly params: T
   readonly verb: string
 
-  constructor (p: IRpcRequestParams<T>) {
-    super(p)
-    p.apiKey && (this.apiKey = p.apiKey)
-    const [domain, verb] = RpcUtils.parseMethod(p.method)
+  constructor(args: IRpcRequestArgs<T>) {
+    super(args)
+    args.apiKey && (this.apiKey = args.apiKey)
+    const [domain, verb] = RpcUtils.parseMethod(args.method)
     this.domain = domain
-    this.method = p.method
-    this.params = p.params || ({} as T)
+    this.method = args.method
+    this.params = args.params || ({} as T)
     this.verb = verb
   }
 
-  toJSON (): any {
+  toJSON(): any {
     const { apiKey, method, params } = this
     const json = super.toJSON()
     if (apiKey) {
@@ -49,7 +49,7 @@ export class RpcRequest<T extends RpcRequestParams = {}> extends RpcMessage
     return { ...json, method }
   }
 
-  static makePropsFromJson (json: any): IRpcRequestParams {
+  static makePropsFromJson(json: any): IRpcRequestArgs {
     return {
       ...super.makePropsFromJson(json),
       method: json.method,
@@ -57,7 +57,7 @@ export class RpcRequest<T extends RpcRequestParams = {}> extends RpcMessage
     }
   }
 
-  protected static validateJson (json: any) {
+  protected static validateJson(json: any) {
     super.validateJson(json)
     if (typeof json.method !== 'string' || !json.method) {
       throw new Error('JSON-RPC method name must be an non-empty string')

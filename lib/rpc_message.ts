@@ -11,7 +11,7 @@ export interface IRpcMessage extends IJsonRpcMessage {
 /**
  * Constructor properties for an RPC message
  */
-export interface IRpcMessageOpts {
+export interface IRpcMessageArgs {
   id?: JsonRpcId
   ttl?: number
 }
@@ -24,11 +24,11 @@ export class RpcMessage implements IRpcMessage {
   readonly id?: JsonRpcId
   readonly ttl: number
 
-  constructor (p: IRpcMessageOpts = {}) {
-    if (p.id) {
-      this.id = p.id === 'auto' ? RpcMessage.lastId++ : p.id
+  constructor (args: IRpcMessageArgs = {}) {
+    if (args.id) {
+      this.id = args.id === 'auto' ? RpcMessage.lastId++ : args.id
     }
-    const ttl = p.ttl || 0
+    const ttl = args.ttl || 0
     this.ttl = ttl > 0 ? ttl : RpcMessage.standardTtl
   }
 
@@ -45,7 +45,7 @@ export class RpcMessage implements IRpcMessage {
     }
   }
 
-  static makePropsFromJson (json: any): IRpcMessageOpts {
+  static makePropsFromJson (json: any): IRpcMessageArgs {
     this.validateJson(json)
     const ttl = json.params?.ttl
     return {

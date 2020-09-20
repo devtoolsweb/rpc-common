@@ -4,11 +4,11 @@ import {
   IJsonRpcResponse,
   JsonRpcId
 } from './json_rpc'
-import { IRpcMessageOpts, RpcMessage } from './rpc_message'
+import { IRpcMessageArgs, RpcMessage } from './rpc_message'
 
 export interface IRpcResponse extends IJsonRpcMessage, IJsonRpcResponse {}
 
-export interface IRpcResponseOpts extends IRpcMessageOpts {
+export interface IRpcResponseArgs extends IRpcMessageArgs {
   error?: IJsonRpcError
   id: JsonRpcId
   result?: any
@@ -19,21 +19,21 @@ export class RpcResponse extends RpcMessage implements IRpcResponse {
   readonly id!: JsonRpcId
   readonly result?: any
 
-  constructor (p: IRpcResponseOpts) {
-    super(p)
-    if (!!p.error === !!p.result) {
+  constructor(args: IRpcResponseArgs) {
+    super(args)
+    if (!!args.error === !!args.result) {
       throw new Error(
         'The RPC response must contain either an error or result data'
       )
     }
-    if (p.error) {
-      this.error = p.error
-    } else if (p.result) {
-      this.result = p.result
+    if (args.error) {
+      this.error = args.error
+    } else if (args.result) {
+      this.result = args.result
     }
   }
 
-  toJSON () {
+  toJSON() {
     const { error, result } = this
     return {
       ...super.toJSON(),
@@ -42,8 +42,8 @@ export class RpcResponse extends RpcMessage implements IRpcResponse {
     }
   }
 
-  static makePropsFromJson (json: any): IRpcResponseOpts {
-    const props = super.makePropsFromJson(json) as IRpcResponseOpts
+  static makePropsFromJson(json: any): IRpcResponseArgs {
+    const props = super.makePropsFromJson(json) as IRpcResponseArgs
     if (json.error) {
       props.error = json.error
     }
