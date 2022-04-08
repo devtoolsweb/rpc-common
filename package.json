@@ -1,5 +1,8 @@
 {
   "author": "elhombre <elhombre.dev@gmail.com>",
+  "dependencies": {
+    "type-fest": "latest"
+  },
   "description": "Common types for RPC clients and servers",
   "devDependencies": {
     "rollup": "latest",
