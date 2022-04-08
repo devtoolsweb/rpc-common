@@ -1,5 +1,5 @@
 {
-  "author": "<aperos.dev@gmail.com>",
+  "author": "elhombre <elhombre.dev@gmail.com>",
   "description": "Common types for RPC clients and servers",
   "devDependencies": {
     "rollup": "latest",
@@ -10,7 +10,7 @@
     "typescript": "latest"
   },
   "license": "MIT",
-  "name": "@aperos/rpc-common",
+  "name": "@devtoolsweb/rpc-common",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "scripts": {

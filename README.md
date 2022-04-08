@@ -1,4 +1,4 @@
-# @aperos/rpc-common
+# @devtoolsweb/rpc-common
 
 Common types for RPC clients and servers.
 
