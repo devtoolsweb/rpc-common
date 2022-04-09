@@ -1,13 +1,13 @@
 import { IJsonRpcError, IJsonRpcMessage, IJsonRpcResponse, JsonRpcId } from './json_rpc'
 import { IRpcMessageArgs, RpcMessage } from './rpc_message'
-import { JsonObject } from 'type-fest'
+import { JsonObject, JsonValue } from 'type-fest'
 
 export interface IRpcResponse extends IJsonRpcMessage, IJsonRpcResponse {}
 
 export interface IRpcResponseArgs extends IRpcMessageArgs {
     error?: IJsonRpcError
     id: JsonRpcId
-    result?: JsonObject
+    result?: JsonValue
 }
 
 export class RpcResponse extends RpcMessage implements IRpcResponse {
@@ -16,7 +16,7 @@ export class RpcResponse extends RpcMessage implements IRpcResponse {
 
     readonly id!: JsonRpcId
 
-    readonly result?: JsonObject
+    readonly result?: JsonValue
 
     constructor (args: IRpcResponseArgs) {
         super(args)
