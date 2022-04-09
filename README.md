@@ -11,7 +11,7 @@ Warning: This package may contain experimental code that is under development an
 ## Installation
 
 ```
-yarn install @devtoolsweb/ts-goodies
+yarn install @devtoolsweb/rpc-common
 ```
 
 ## Usage
@@ -20,4 +20,4 @@ See own description for each class.
 
 ## License
 
-[MIT](https://github.com/devtoolsweb/rpc-common/blob/devtoolsweb/README.md)
+[MIT](https://github.com/devtoolsweb/rpc-common/blob/master/LICENSE)
